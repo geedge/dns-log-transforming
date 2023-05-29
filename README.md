@@ -1,92 +1,41 @@
-# DNS-log-transforming
+## 项目介绍
 
+目标：将科技网TSG格式的DNS日志转成软件所定义的DNS日志格式
 
+* 输入：科技网DNS日志：
 
-## Getting started
+  * 日志来源：科技网159.226.16.97服务器(kafka-topic:TRANSACTION-RECORD)
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+  * 访问方式：（若访问方式更新，请询问王道宽）
+    		1.通过easyconnect连接科技网；VPN连接方式见：https://docs.mesalab.cn/pages/viewpage.action?pageId=24216380
+    		（账号：zhuyujia@iie.ac.cn   密码：JiShuShi@20230410；需要朱宇佳老师的手机验证码）
+    		2.远程登录159.226.16.96服务器（账户及密码需要通过钉钉审批-科技网服务器使用权限申请），登录端口为：10022
+    		（我的用户名及密码为：user:   zhijinghua  passwd:   KjW@HY_Zjinghua）
+    		3.在159.226.16.96服务器ssh登录159.226.16.97服务器，端口为：10022 账户及密码同上		
+    		4.通过./kafka-console-consumer.sh --bootstrap-server 159.226.16.97:9092 --topic TRANSACTION-RECORD访问科技网DNS日志
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+* 输出：软件所kafka集群：
+  '159.226.16.115:29097,159.226.16.116:29097,159.226.16.116:29090,159.226.16.116:29091,159.226.16.116:29092'
+  	topic:
+  		"DNS-NEW-RR-LOG"：对应附件1-2.1. 域名资源记录数据格式定义
+  		"DNS_BEHAVIOR_2022"：对应附件1-2.2. 域名访问行为记录数据格式定义-新域名解析行为数据格式
 
-## Add your files
+* 代码
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+ 	1. "DNS-NEW-RR-LOG"对应代码：159.226.16.97：/home/zhijinghua/dnslog_handling/code/dnslog_resource_hr_v4.py
+ 	2. "DNS_BEHAVIOR_2022"对应代码：159.226.16.97：/home/zhijinghua/dnslog_handling/code/dnslog_behavior_hr_v4.py
+ 	3. 代码说明：
+     1.完成日志格式转换
+     2.过滤了部分流量：过滤内容见“DNS日志转化代码说明.docx”
+     3.日志统计：在发送日志到软件所的kafka时记录的
+     * 地址：159.226.16.97：/home/zhijinghua/dnslog_handling/behavior_out_test
+     * 说明：每天结束记录一次日志量；每三个小时记录一次日志量
+       以2022-08-18（输出的是2022.08.17整天的日志量）为例
+       recv_num is: 66843578（从TRANSACTION-RECORD读取的日志量）
+       send_num is: 64855245（格式转换和过滤后发送到DNS_BEHAVIOR_2022的日志量）
 
-```
-cd existing_repo
-git remote add origin https://git.mesalab.cn/zhijinghua/dns-log-transforming.git
-git branch -M main
-git push -uf origin main
-```
+## 相关材料
 
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.mesalab.cn/zhijinghua/dns-log-transforming/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+1. 科技网TSG格式：https://docs.mesalab.cn/pages/viewpage.action?pageId=693965
+2. 软件所转换格式：项目数据格式与交互接口定义-V3.2-20220719.docx
+3. DNS日志转化代码说明.docx
