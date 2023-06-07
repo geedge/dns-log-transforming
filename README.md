@@ -8,9 +8,9 @@
 
 * 访问方式：（若访问方式更新，请询问王道宽）
   * 通过easyconnect连接科技网；VPN连接方式见：https://docs.mesalab.cn/pages/viewpage.action?pageId=24216380
-  * 远程登录159.226.16.96服务器（账户及密码需要通过钉钉审批-科技网服务器使用权限申请），登录端口为：10022
-  * 在159.226.16.96服务器ssh登录159.226.16.97服务器，端口为：10022 账户及密码同上		
-  * 通过./kafka-console-consumer.sh --bootstrap-server 159.226.16.97:9092 --topic TRANSACTION-RECORD访问科技网DNS日志
+  * 远程登录159.226.16.98服务器（账户及密码需要通过钉钉审批-科技网服务器使用权限申请），登录端口为：10022
+  * 在159.226.16.98服务器ssh登录159.226.16.97服务器，端口为：10022 账户及密码同上		
+  * 通过./kafka-console-consumer.sh --bootstrap-server 159.226.16.97:9092 --topic TRANSACTION-RECORD访问科技网DNS日志（kafka目录在/usr/local/kafka中）
   
 * 输出：软件所kafka集群：'159.226.16.115:29097,159.226.16.116:29097,159.226.16.116:29090,159.226.16.116:29091,159.226.16.116:29092'
   * topic:
@@ -45,3 +45,21 @@
 * 软件所转换格式：项目数据格式与交互接口定义-V3.2-20220719.docx
 
 * DNS日志转化代码说明.docx
+
+## 运行环境
+
+Python-3.8.0.tgz
+
+chardet-4.0.0.tar.gz                                      
+
+kafka-python-2.0.2.tar.gz
+
+confluent_kafka-1.8.2-cp38-cp38-manylinux2010_x86_64.whl
+
+iperf-2.0.8-source.tar.gz
+
+代码运行方式：
+
+nohup python3 -u dnslog_behavior_hr_v4.py >> behavior_out&
+
+nohup python3 -u dnslog_resource_hr_v4.py >> resource_out&
