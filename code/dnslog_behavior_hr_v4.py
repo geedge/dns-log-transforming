@@ -9,7 +9,6 @@ import traceback
 import time
 import datetime
 import os
-#此版本仅供参考，最新版本见97服务器
 #logging.basicConfig(filename='/home/zjh/code/code_py/dns_new_behavior_log', level=logging.ERROR,
 #     format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -239,7 +238,10 @@ def transfer_new_behavior_json(result,message):
                 else:
                     #item_analysis['type'] = item['type']
                     continue
-
+   # print("answer"+str(result["answer_rrs"]))
+   # print("auth"+str(result["authority_rrs"]))
+   # print("add"+str(result["additional_rrs"]))
+   # print("itemnum"+str(item_num))
     result["answer_rrs"] = len(result["answers"])
     result["authority_rrs"] = len(result["auth_ns"])
     result["additional_rrs"] = len(result["additional_res"])
@@ -268,8 +270,8 @@ if __name__ == "__main__":
     rjs_send_num = 0
     try:
         while True:
-            if(int(time.time())-rjs_send_time == 3600):
-                rjs_send_time = rjs_send_time + 3600
+            if(int(time.time())-rjs_send_time == 10800):
+                rjs_send_time = rjs_send_time + 10800
                 print(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())))
                 print("send num is :"+str(rjs_send_num))
                 rjs_send_num = 0

@@ -6,7 +6,7 @@ import json
 import logging
 import collections
 import traceback
-#此版本仅供参考，最新版本见97服务器
+
 #logging.basicConfig(filename='/home/zjh/code/code_py/dns_new_resource_log', level=logging.WARNING,
 #     format='%(asctime)s - %(levelname)s - %(message)s')
 
