@@ -7,7 +7,7 @@
 * 日志来源：科技网159.226.16.97服务器(kafka-topic:TRANSACTION-RECORD)
 
 * 访问方式：（若访问方式更新，请询问王道宽）
-  * 通过easyconnect连接科技网；VPN连接方式见：https://docs.mesalab.cn/pages/viewpage.action?pageId=24216380（账号：zhuyujia@iie.ac.cn   密码：JiShuShi@20230410；需要朱宇佳老师的手机验证码）
+  * 通过easyconnect连接科技网；VPN连接方式见：https://docs.mesalab.cn/pages/viewpage.action?pageId=24216380
   * 远程登录159.226.16.96服务器（账户及密码需要通过钉钉审批-科技网服务器使用权限申请），登录端口为：10022
   * 在159.226.16.96服务器ssh登录159.226.16.97服务器，端口为：10022 账户及密码同上		
   * 通过./kafka-console-consumer.sh --bootstrap-server 159.226.16.97:9092 --topic TRANSACTION-RECORD访问科技网DNS日志
